@@ -1,1 +1,1 @@
-# nuvei_gateway_subscription
+# nuvei_gateway_subscriptions
