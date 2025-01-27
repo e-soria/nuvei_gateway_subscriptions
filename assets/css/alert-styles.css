@@ -5,6 +5,7 @@
     border: 1px solid #000;
     border-top: 4px solid #000;
     border-radius: 4px;
+    margin: 16px 0px;
 }
 
 .alert p {
@@ -24,11 +25,20 @@
     color: #cf5d58;
 }
 
-alert.info-alert {
+.alert.info-alert {
     background: #ebf8ff;
     border-color: #326ba7;
 }
 
 .alert.info-alert p {
     color: #326ba7;
+}
+
+.alert.success-alert {
+    background-color: #e3ffe4;
+    border-color: #5cab5f;
+}
+
+.alert.success-alert p {
+    color: #2c762f;
 }

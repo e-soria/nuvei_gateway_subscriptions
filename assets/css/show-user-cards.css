@@ -2,22 +2,29 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    gap: 24px;
+    flex-direction: column;
+    gap: 16px;
     flex-wrap: wrap;
+    margin: 16px 0px;
 }
 
-#user-cards-container .user-card {
+#user-cards-container h3 {
+    margin: 0px;
+}
+
+#user-cards-container .user-card  {
     position: relative;
-    background: var(--input-border-color);
-    border: 2px solid var(--black-color);
+    background: linear-gradient(130deg, #313139 28%, #1a1b1c 50%);
+    border: none;
     border-radius: 10px;
     padding: 24px;
     -webkit-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: inline-block;
-    max-width: calc( 33.33% - 24px );
+    max-width: 324px;
     width: 100%;
 }
+
 
 @media (max-width: 1280px) {
     #user-cards-container .user-card {
@@ -47,11 +54,12 @@
     margin: 0;
     padding: 4px 0px;
     font-size: 16px;
+    color: #fff;
 }
 
 #user-cards-container .user-card-details p.card-number {
     font-size: 20px;
-    color: var(--white-color);
+    color: #fff;
 }
 
 #user-cards-container p:first-child {
@@ -82,12 +90,13 @@
 }
 
 #user-cards-container .card-form-ctas input[type="submit"].delete-card-button {
-    background: var(--red-color);
-    color: var(--white-color);
+    background: #dd2222;
+    color: #fff;
+    transition: background .4s ease;
 }
 
 #user-cards-container .card-form-ctas input[type="submit"].delete-card-button:hover {
-    background: var(--red-color);
+    background: #a01818;
 }
 
 /*-------------- CONFIRMATION MODAL ------------*/
