@@ -107,14 +107,12 @@
 /*-------------- CONFIRMATION MODAL ------------*/
 
 .confirmation-modal {
-    position: absolute;
-    transform: translateX(-50%);
-    left: 50%;
-    width: 100vw;
-    height: 100vh;
+    position: fixed;
+    inset: 0;
+    min-width: 100%;
+    min-height: 100%;
     background: rgba(0,0,0,0.5);
     z-index: 9999999;
-    inset: 0;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -156,10 +154,8 @@
     gap: 16px;
 }
 
-.confirmation-modal .confirmation-modal-container .icon-info:before  {
-    content: '\e800';
-    color: #ff5f6d;
-    font-size: 56px;
+.confirmation-modal .confirmation-modal-container img {
+    max-width: 80px;
 }
 
 .confirmation-modal .confirmation-modal-container h2 {
