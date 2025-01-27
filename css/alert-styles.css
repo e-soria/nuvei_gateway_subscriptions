@@ -1,0 +1,25 @@
+.alert {
+    padding: 16px 24px;
+    display: inline-block;
+    background: #000;
+    border: 1px solid #000;
+    border-top: 4px solid #000;
+    border-radius: 4px;
+}
+
+.alert p {
+    font-size: 14px;
+    color: #fff;
+    margin: 0px;
+    font-weight: 400;
+}
+
+.alert.error-alert {
+    background-color: #fff5f4;
+    border-color: #cf5d58;
+    padding: 24px;
+}
+
+.alert.error-alert p {
+    color: #cf5d58;
+}
