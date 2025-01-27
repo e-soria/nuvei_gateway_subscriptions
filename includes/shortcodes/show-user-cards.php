@@ -6,6 +6,7 @@ function show_user_cards($atts) {
     $base_plugin_path = plugins_url('', dirname(__FILE__, 2));
 
     wp_enqueue_script('delete-user-cards', $base_plugin_path . '/api/delete-user-cards.js', array('jquery'), null, true);
+    wp_localize_script('delete-user-cards', 'basePath', $base_plugin_path);
 
     $atts = shortcode_atts(array(
         'tokenization_form' => 'false',
@@ -137,23 +138,6 @@ function show_user_cards($atts) {
         </div>
 
         <?php
-
-        if ($delete_card_button === "true") { ?>
-        
-            <div class="confirmation-modal" style="display:none;">
-                <div class="confirmation-modal-container">
-                    <i class="icon-info" aria-hidden="true"></i>
-                    <h2>¿Estás seguro de <span>eliminar tu tarjeta</span>?</h2>
-                    <div class="modal-ctas">
-                        <button class="yes">Si, deseo eliminarla</button>
-                        <button class="no">No</button>
-                    </div>
-                </div>
-            </div>
-
-            <?php
-        
-        } 
 
     } else {
 
