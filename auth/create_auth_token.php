@@ -3,14 +3,16 @@
 function create_auth_token() {
 
     //get credentials from plugin_hooks
-    $credentials = get_server_credentials();
-
-    if(!$credentials) {
-        return;
+    $credentials = get_nuvei_server_keys();
+    $error_message = 'No es posible crear un token de autenticación. Por favor, revisa las credenciales de configuración del plugin.';
+    
+    if (!$credentials) {
+        echo '<div class="alert error-alert"><p>' . $error_message . '</p></div>';
+        return false;
     }
 
-    $server_app_code = $credentials['app_server_code'];
-    $server_app_key = $credentials['app_server_key'];
+    $server_app_code = $credentials['server_code'];
+    $server_app_key = $credentials['server_key'];
 
     $date = new DateTime();
     $unix_timestamp = $date->getTimestamp();
