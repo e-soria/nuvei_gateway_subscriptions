@@ -1,13 +1,12 @@
 <?php
 
-function tokenize_form($atts) { 
-    
-  $atts = shortcode_atts(array(
-    'is_checkout' => false,
-  ), $atts);
+function render_tokenization_form($atts) { 
+  $atts = shortcode_atts(
+    ['is_checkout' => false], 
+  $atts);
 
   ?>
-  
+    
   <div id="tokenize-form">
       
     <div id='tokenize-form-container'>
@@ -17,7 +16,7 @@ function tokenize_form($atts) {
       <div id='tokenize_example'></div>
 
       <form id="tokenize_form" method="post" style="display: none;">
-          <input type="hidden" name="action" value="save_card">
+        <input type="hidden" name="action" value="save_card">
       </form>
 
       <input type="button" id='tokenize_btn' class='tok_btn' value="Guardar tarjeta">
@@ -29,31 +28,29 @@ function tokenize_form($atts) {
 
   <?php  
 
-
-  set_form_settings();
-
+  load_tokenization_assets();
   wp_localize_script('init-tokenization', 'isCheckout', $atts);
-  
-}
-  
-add_shortcode('tokenize_form', 'tokenize_form'); 
-
-
-function set_form_settings() {
-
-  // init js files
-  $plugin_url = plugin_dir_url(basename(__FILE__)) . 'nuvei-gateway/'; 
-
-  wp_enqueue_script('nuvei-form', $plugin_url . 'api/nuvei-form.js', array('jquery'), null, true);
-  wp_enqueue_script('init-tokenization', $plugin_url . 'api/init-tokenization.js', array('jquery', 'nuvei-form'), null, true);
-
-  // get user data from plugin_hooks.php and send them to nuvei-form.js
-  $user_data = get_user_data();
-  wp_localize_script('nuvei-form', 'userData', $user_data);
-
-  // get credentials from plugin_hooks.php and send them to nuvei-form.js
-  $credentials = get_app_credentials();
-  wp_localize_script('nuvei-form', 'credentials', $credentials);
 
 }
 
+add_shortcode('tokenization_form', 'render_tokenization_form'); 
+
+
+function load_tokenization_assets() {
+    // Obtener la URL base del plugin de forma más precisa
+    $plugin_base_url = plugin_dir_url(dirname(__FILE__, 2));
+
+    // Cargar scripts necesarios para la tokenización
+    wp_enqueue_script('tokenization-form', $plugin_base_url . 'api/tokenization-form.js', ['jquery'], null, true);
+    wp_enqueue_script('init-tokenization', $plugin_base_url . 'api/init-tokenization.js', ['jquery', 'tokenization-form'], null, true);
+
+    // Obtener y enviar datos del usuario al script JS
+    $current_user_data = get_current_user_data();
+    wp_localize_script('tokenization-form', 'userData', $current_user_data);
+    
+    // Obtener y enviar credenciales de la app al script JS
+    $api_credentials = get_nuvei_app_keys();
+    wp_localize_script('tokenization-form', 'credentials', $api_credentials);
+}
+
+?>
