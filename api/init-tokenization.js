@@ -2,8 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const { is_checkout } = isCheckout;
 
-    console.log(is_checkout);
-
     if (is_checkout) {
 
         const checkoutForm = jQuery( 'form.woocommerce-checkout' );
@@ -31,46 +29,58 @@ let responseCallback = (response) => {
 
     const { is_checkout } = isCheckout;
 
-    console.log(response);
+    console.log('esta es la respuesta', response);
 
-    if (response.card && response.card.status === 'valid' && response.card.bin.length > 0) {
+    // Acceder de manera segura al status, evitando undefined
+    let cardStatus = response?.card?.status ?? '';
+    let cardBin = response?.card?.bin ?? '';
+    let errorType = response?.error?.type ?? '';
 
-        if(!is_checkout) {
+    if (cardStatus === 'valid' && cardBin.length > 0) {
+
+        if (!is_checkout) {
+
             alertHTML = `
-            <div class='alert success-alert' style="margin-bottom: 24px;">
-                <p><i class="icon-info" aria-hidden="true"></i>Tarjeta agregada correctamente. Recargando página.</p>
-            </div>`;
+                <div class='alert success-alert' style="margin-bottom: 24px;">
+                    <p><i class="icon-info" aria-hidden="true"></i>Tarjeta agregada correctamente. Tu perfil se está actualizando.</p>
+                </div>`
+            ;
+
         } else {
+
             alertHTML = `
-            <div class='alert info-alert' style="margin-bottom: 24px;">
-                <p><i class="icon-info" aria-hidden="true"></i>Los datos de la tarjeta son correctos. Estamos procesando el pago.</p>
-            </div>`;
+                <div class='alert info-alert' style="margin-bottom: 24px;">
+                    <p><i class="icon-info" aria-hidden="true"></i>Los datos de la tarjeta son correctos. Estamos procesando el pago.</p>
+                </div>`
+            ;
+
         }
 
         setTimeout(() => {
             saveCard(response);
         }, 2000);
+
+    } else if (cardStatus === 'rejected') {
         
-
-    } else if (response.card.status === 'rejected') {
-
-        alertHTML = 
-            `
+        alertHTML = `
             <div class='alert error-alert' style="margin-bottom: 24px;">
                 <p><i class="icon-info" aria-hidden="true"></i>Hubo un problema con tu tarjeta. La conexión fue rechazada. Por favor escríbenos a <a href="mailto:hi@hiitclub.online">hi@hiitclub.online</a>.</p>
+            </div>`
+        ;
+        
+
+    } else if (errorType.includes('Card already added')) {
+        
+        alertHTML = `
+            <div class='alert info-alert' style="margin-bottom: 24px;">
+                <p><i class="icon-info" aria-hidden="true"></i>Ya has agregado esta tarjeta. Si quieres actualizarla primero debes borrarla.</p>
             </div>
         `;
+        
+    }
 
-    } else {
-        if (response.type.includes('Card already added')) {
-
-            alertHTML = `
-                <div class='alert info-alert' style="margin-bottom: 24px;">
-                    <p><i class="icon-info" aria-hidden="true"></i>Ya has agregado esta tarjeta. Si quieres actualizarla primero debes borrarla.</p>
-                </div>
-            `;
-
-        }
+    if (alertHTML !== '') {
+        responseElement.innerHTML = alertHTML;
     }
 
     retryButton.style.display = "block";
