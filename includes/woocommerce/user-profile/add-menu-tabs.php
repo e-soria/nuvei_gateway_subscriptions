@@ -25,18 +25,10 @@ add_filter( 'woocommerce_account_menu_items', 'add_tabs_to_profile' );
 
 
 function add_tabs_content_mis_tarjetas() {
-
-    echo '<div class="mis-tarjetas-container">';
-        echo '<div class="user-cards-container">';
-            echo do_shortcode('[show_user_cards tokenization_form="true" delete_card_button="true"]');
-        echo '</div>';
-        // echo '<div class="tokenize-form-container">';
-        //     echo do_shortcode('[tokenization_form]');
-        // echo '</div>';
-    echo '</div>';
-
+    echo do_shortcode('[show_user_cards tokenization_form="true" delete_card_button="true"]');
     return;
 }
+
 add_action( 'woocommerce_account_mis-tarjetas_endpoint', 'add_tabs_content_mis_tarjetas' );
 
 function add_tabs_content_reembolsos() {
