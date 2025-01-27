@@ -2,10 +2,6 @@
 
 function show_user_cards($atts) {
 
-    //init js files
-    $plugin_url = plugin_dir_url(basename(__FILE__)) . 'nuvei-gateway/'; 
-    wp_enqueue_script('delete-user-cards', $plugin_url . 'api/delete-user-cards.js', array('jquery'), null, true);
-
     $atts = shortcode_atts(array(
         'tokenize_form' => 'false',
         'use_card_button' => 'false',
@@ -17,12 +13,17 @@ function show_user_cards($atts) {
     $use_card_button = strval($atts['use_card_button']);
     $delete_card_button = strval($atts['delete_card_button']);
 
+    //init js files
+    $base_plugin_path = plugins_url('', dirname(__FILE__, 2));
+    wp_enqueue_script('delete-user-cards', $base_plugin_path . '/api/delete-user-cards.js', array('jquery'), null, true);
+
+
     // get all user cards
     $get_user_cards = list_user_cards();
 
     // get user data
-    $get_user_data = get_user_data();
-    $user_id = $get_user_data['user_id'];
+    $get_user_data = getCurrentUserInfo();
+    $user_id = $get_user_data['id'];
 
     // html output
     $html_output = '';
