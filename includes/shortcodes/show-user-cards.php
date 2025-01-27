@@ -35,7 +35,11 @@ function show_user_cards($atts) {
         $user_cards = [];
 
         ?>
-        <div id="user-cards-container" class="user-cards-container"> <?php
+        <div id="user-cards-container" class="user-cards-container"> 
+
+            <h3>Tus tarjetas guardadas</h3>
+
+        <?php
 
             foreach ($cards as $card) {
 
@@ -52,9 +56,9 @@ function show_user_cards($atts) {
                 $user_cards[] = $card;
 
                 if ($card_type === 'mc') {
-                    $card_type_img = '/../wp-content/uploads/2023/10/mastercard_icon.svg';
+                   $card_type_img = $base_plugin_path . '/assets/images/mastercard_logo_image.svg';
                 } elseif ($card_type === 'vi') {
-                    $card_type_img = '/../wp-content/uploads/2023/10/visa_icon.svg';
+                   $card_type_img =  $base_plugin_path . '/assets/images/visa_logo_image.svg';
                 }
 
                 ?>
@@ -136,7 +140,7 @@ function show_user_cards($atts) {
     } else {
 
         $html_output .= '<div class="alert info-alert">';
-        $html_output .= '<p><i class="icon-info" aria-hidden="true"></i>No tienes ninguna tarjeta registrada.</p>';
+        $html_output .= '<p><i class="icon-info" aria-hidden="true"></i>No tienes ninguna tarjeta registrada. Puedes guardar tu primer tarjeta en el formulario debajo.</p>';
         $html_output .= '</div>';
 
         echo $html_output;
