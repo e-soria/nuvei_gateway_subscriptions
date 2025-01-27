@@ -30,7 +30,7 @@ function add_tabs_content_mis_tarjetas() {
             echo do_shortcode('[show_user_cards]');
         echo '</div>';
         echo '<div class="tokenize-form-container">';
-            echo do_shortcode('[tokenize_form]');
+            echo do_shortcode('[tokenization_form]');
         echo '</div>';
     echo '</div>';
 }
