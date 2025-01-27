@@ -1,55 +1,33 @@
 <?php
 
-/**
- * Store card information in the database.
- * 
- * @param string $user_id       User ID associated with the card.
- * @param array  $user_card     Card information to store.
- *
- * @return bool                 True if the operation was successful, false otherwise.
- * 
-*/
+function save_user_card($user_id, $card_data) {
 
-function save_card_into_db($user_id, $user_card) {
-
-    $html_output = '';
-
-    if (empty($user_id) || empty($user_card)) {
-
-        $html_output .= '<div class="alert error-alert">';
-        $html_output .= '<p><i class="icon-info" aria-hidden="true"></i>Token de tarjeta o ID de usuario no válido</p>';
-        $html_output .= '</div>';
-
-        echo $html_output;
-
+    if (empty($user_id) || empty($card_data)) {
+        display_alert('error', 'Token de tarjeta o ID de usuario no válido.');
         return false;
-
     }
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'user_cards';
+    $table_name = $wpdb->prefix . 'nuvei_user_cards';
 
-    $data_to_insert = array(
-        'card_token'      => $user_card['card_token'],
-        'user_id'         => $user_id,
-        'subscription_id' => isset($user_card['subscription_id']) ? $user_card['subscription_id'] : null,
-    );
+    $insert_data = [
+        'card_token'      => $card_data['card_token'],
+        'user_id'         => intval($user_id),
+        'subscription_id' => $card_data['subscription_id'] ?? null,
+    ];
 
-    $wpdb->insert($table_name, $data_to_insert);
+    $insert_result = $wpdb->insert($table_name, $insert_data);
 
-    if ($wpdb->last_error) {
-
-        $html_output .= '<div class="alert error-alert">';
-        $html_output .= '<p><i class="icon-info" aria-hidden="true"></i>Error al guardar los datos en la db: ' . $wpdb->last_error . '</p>';
-        $html_output .= '</div>';
-
-        echo $html_output;
-
+    if (!$insert_result) {
+        display_alert('error', 'Error al guardar los datos en la base de datos: ' . esc_html($wpdb->last_error));
         return false;
-
     }
 
     return true;
+}
+
+function display_alert($type, $message) {
+    echo "<div class='alert {$type}-alert'><p><i class='icon-info' aria-hidden='true'></i> {$message}</p></div>";
 }
 
 ?>
