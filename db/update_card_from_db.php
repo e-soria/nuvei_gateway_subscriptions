@@ -1,37 +1,28 @@
 <?php
 
-/**
- * Actualiza el ID de suscripción asociado a una tarjeta en la base de datos.
- *
- * @param string  $user_id          ID del usuario asociado a la tarjeta.
- * @param string  $card_token       Token de la tarjeta a actualizar.
- * @param string  $subscription_id  Nuevo ID de suscripción asociado a la tarjeta.
- */
+function update_user_card($user_id, $card_token, $subscription_id) {
 
-function update_card_from_db( $user_id, $card_token, $subscription_id ) {
-    
-    global $wpdb;
-  
-    $table_name = $wpdb->prefix . 'user_cards';
-  
-    $sql = $wpdb->prepare(
-        "UPDATE $table_name SET subscription_id = %d WHERE user_id = %d AND card_token = %s",
-        $subscription_id,
-        $user_id,
-        $card_token
-    );
-   
-    $result = $wpdb->query($sql);
-
-    if ( $result === false ) {
-        wc_add_notice(
-            '<p>
-                No es posible realizar la transacción. 
-                Por favor, prueba con otra tarjeta, comunícate con tu banco o contáctate con nosotros para recibir ayuda. 
-            </p>', 
-            'error' 
-        );
+    if (empty($user_id) || empty($card_token) || empty($subscription_id)) {
+        return '<div class="alert error-alert">Error: Datos de tarjeta o usuario inválidos.</div>';
     }
-}
 
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'nuvei_user_cards';
+
+    $update_card = $wpdb->update(
+        $table_name,
+        ['subscription_id' => $subscription_id],
+        ['user_id' => $user_id, 'card_token' => $card_token],
+        ['%d'],
+        ['%d', '%s']
+    );
+
+    if ($update_card === false) {
+        return '<div class="alert error-alert">
+                    <p>No se pudo actualizar la tarjeta. Intenta nuevamente o contáctanos para recibir asistencia.</p>
+                </div>';
+    }
+
+    return true;
+}
 ?>
