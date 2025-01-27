@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+    console.log(credentials);
+    console.log(userData);
+
     const tokenizeForm = document.querySelector('#tokenize-form');
     const { is_checkout } = isCheckout;
 
@@ -17,9 +20,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+
 const initForm = ( credentials, userData ) => {
 
-    const { user_email, user_id } = userData;
+    const { email, id } = userData;
     const { mode, app_code, app_key } = credentials;
 
     //console.log(app_code);
@@ -40,8 +44,8 @@ const initForm = ( credentials, userData ) => {
         let data = {
         locale: "en",
         user: {
-            id: user_id,
-            email: user_email,
+            id: id,
+            email: email,
         },
         configuration: {
             default_country: "ECU",
