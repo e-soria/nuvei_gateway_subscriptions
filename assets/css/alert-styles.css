@@ -23,3 +23,12 @@
 .alert.error-alert p {
     color: #cf5d58;
 }
+
+alert.info-alert {
+    background: #ebf8ff;
+    border-color: #326ba7;
+}
+
+.alert.info-alert p {
+    color: #326ba7;
+}
