@@ -4,14 +4,14 @@ if (!in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get
 
 function nuvei_init_gateway_class() {
     
-    class WC_Nuvei_Subscription_Gateway extends WC_Payment_Gateway {
+    class WC_Nuvei_Gateway_Subscriptions extends WC_Payment_Gateway {
 
         public function __construct() {
 
-            $this->id = 'nuvei_subscription_gateway'; 
+            $this->id = 'nuvei_gateway_subscriptions'; 
             $this->icon = 'https://hiitclub.online/wp-content/uploads/2024/08/WhatsApp-Image-2024-08-01-at-3.19.36-PM.jpeg'; 
             $this->has_fields = true;
-            $this->method_title = 'Nuvei Gateway';
+            $this->method_title = 'Nuvei Gateway Subscriptions';
             $this->method_description = 'Use this payment method to make sales and payments through Nuvei';
             
             $this->supports = array( 
@@ -46,8 +46,8 @@ function nuvei_init_gateway_class() {
             $this->app_server_code = $this->get_option( 'app_server_code' );
             $this->app_server_key = $this->get_option( 'app_server_key' );
             
-            $this->base_url_stg = $this->get_option( 'base_url_stg' );
-            $this->base_url_prod = $this->get_option( 'base_url_prod' );
+            $this->stg_mode_url = $this->get_option( 'stg_mode_url' );
+            $this->prod_mode_url = $this->get_option( 'prod_mode_url' );
 
             $this->tax_enabled = $this->get_option( 'tax_enabled' );
             $this->tax_percentage = $this->get_option('tax_enabled') === 'no' ? '0' : $this->get_option( 'tax_percentage' );
@@ -73,7 +73,7 @@ function nuvei_init_gateway_class() {
             $this->form_fields = array(
                 'enabled' => array(
                     'title'       => 'Enable/Disable',
-                    'label'       => 'Enable Nuvei Gateway',
+                    'label'       => 'Enable Nuvei Gateway Subscriptions',
                     'type'        => 'checkbox',
                     'description' => '',
                     'default'     => 'no'
@@ -140,14 +140,14 @@ function nuvei_init_gateway_class() {
                     'type'        => 'password',
                     'default'     => ''
                 ),
-                'base_url_stg'  => array(
+                'stg_mode_url'  => array(
                     'title'       => 'Base URL stg',
                     'type'        => 'text',
                     'default'     => 'https://ccapi-stg.paymentez.com/v2',
                     'desc_tip'    => true,
                     'description' => 'Base url for endpoints in stg mode. Ex: https://ccapi-stg.paymentez.com/v2',
                 ),
-                'base_url_prod'  => array(
+                'prod_mode_url'  => array(
                     'title'       => 'Base URL prod',
                     'type'        => 'text',
                     'default'     => 'https://ccapi-prod.paymentez.com/v2',
@@ -184,7 +184,6 @@ function nuvei_init_gateway_class() {
 
 		public function payment_fields() {
 
-          
             if( $this->description ) {
                 if( $this->testmode ) {
                     $this->description .= ' <span class="test-mode">TEST MODE ENABLED.</span> In test mode, you can use the card numbers listed in <a href="https://developers.paymentez.com/docs/payments/#javascript">documentation</a>.';
