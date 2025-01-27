@@ -209,7 +209,7 @@ function nuvei_init_gateway_class() {
               
                 do_action( 'woocommerce_credit_card_form_start', $this->id );
                 
-                do_shortcode('[tokenize_form is_checkout="true"]');
+                do_shortcode('[tokenization-form is_checkout="true"]');
             
                 do_action( 'woocommerce_credit_card_form_end', $this->id );
         
