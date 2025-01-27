@@ -16,9 +16,10 @@ function list_user_cards() {
 
     }
 
-    $user_data = get_user_data();
+    $user_data = get_current_user_data();
 
-    if( !$user_data ) {
+
+    if( empty($user_data) ) {
 
         $html_output .= '<div class="alert error-alert" style="margin-bottom: 24px;">';
         $html_output .= '<p><i class="icon-info" aria-hidden="true"></i>No user data available.</p>';
@@ -27,12 +28,11 @@ function list_user_cards() {
         return $html_output;
     
     } else {
-
-        $user_id = $user_data['user_id'];
-
+        $user_id = $user_data['id'];
     }
 
-    $base_url = get_nuvei_base_url();
+    $base_url = get_nuvei_urls();
+
     $request_url = $base_url . '/card/list?uid=' . $user_id;
 
     $request_headers = array(
