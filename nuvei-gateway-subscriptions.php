@@ -25,7 +25,7 @@ function nuvei_gateway_subscriptions_load_files() {
 
         $plugin_base_path = plugin_dir_path(__FILE__);
 
-        $woocommerce_tab_file = $plugin_base_path . 'includes/woocommerce/my-account-tabs.php';
+        $woocommerce_tab_file = $plugin_base_path . 'includes/woocommerce/add-menu-tabs.php';
         
 
         if (file_exists($woocommerce_tab_file)) {
