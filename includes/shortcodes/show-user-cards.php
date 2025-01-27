@@ -22,7 +22,7 @@ function show_user_cards($atts) {
     $get_user_cards = list_user_cards();
 
     // get user data
-    $get_user_data = getCurrentUserInfo();
+    $get_user_data = get_current_user_data();
     $user_id = $get_user_data['id'];
 
     // html output
