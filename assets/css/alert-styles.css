@@ -18,7 +18,6 @@
 .alert.error-alert {
     background-color: #fff5f4;
     border-color: #cf5d58;
-    padding: 24px;
 }
 
 .alert.error-alert p {
