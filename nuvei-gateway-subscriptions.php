@@ -39,7 +39,7 @@ function nuvei_gateway_subscriptions_load_files() {
             '/auth/create-auth-token.php',
             '/api/debit_with_token.php',
             '/api/delete_card.php',
-            '/api/list_user_cards.php',
+            '/api/list-user-cards.php',
             '/api/refund.php',
             
             '/db/create-cards-table.php',
