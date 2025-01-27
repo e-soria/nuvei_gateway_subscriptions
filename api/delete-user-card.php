@@ -1,65 +1,93 @@
 <?php
 
-function delete_user_card($userId, $user_cards) {
+/**
+* Delete a tokenized card from the user through the Nuvei API*
+* @param array   $user_cards     All cards associated with the user
+* @param string  $user_id        User ID
+*
+* @return redirect|message       If card was deleted returns redirect to same page or returns a error message.
+*/
+
+function delete_user_card($user_id, $user_cards) {
+
+    //print_r($_POST);
+
+    $html_output = '';
     
     $auth_token = create_auth_token();
+
     $card_token = null;
-    $card_ref = sanitize_text_field($_POST['card_token']);
+    $card_ref = $_POST['card_token'];
     
-    // Buscar la tarjeta que se debe eliminar
     foreach ($user_cards as $card) {
-        if ($card_ref === $card['token']) {
+
+        //print_r($card);
+
+        if($card_ref == $card['token']) {
+
             $card_token = $card['token'];
+
             $card_data = [
                 "card" => [
                     "token" => $card_token
                 ],
+        
                 "user" => [
-                    "id" => $userId
+                    "id" => $user_id
                 ]
             ];
+
             break;
         }
+
     }
     
-    if (!$card_token) {
-        return '<p>Error: No se encontró la tarjeta especificada.</p>';
-    }
+    $dataJSON = json_encode($card_data);
+  
+    $base_url = get_nuvei_urls();
+    $url = $base_url . '/card/delete/';
 
-    $JSON_data = json_encode($card_data);
-    $baseUrl = get_nuvei_urls();
-    $url = $baseUrl . '/card/delete/';
-
-    // Realizar la solicitud cURL a la API de Nuvei
     $request = curl_init();
+
     curl_setopt($request, CURLOPT_URL, $url);
     curl_setopt($request, CURLOPT_CUSTOMREQUEST, 'POST');
-    curl_setopt($request, CURLOPT_POSTFIELDS, $JSON_data);
-    curl_setopt($request, CURLOPT_HTTPHEADER, ['Auth-Token: ' . $auth_token]);
-    curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
-    
+    curl_setopt($request, CURLOPT_POSTFIELDS, $dataJSON);
+    curl_setopt($request, CURLOPT_HTTPHEADER, array('Auth-Token: ' . $auth_token));
+    curl_setopt($request, CURLOPT_RETURNTRANSFER, true); //consultar esto
+
     $response = curl_exec($request);
 
     if (curl_errno($request)) {
-        $error_message = '<p>Error en la solicitud: ' . curl_error($request) . '</p>';
+
+        $html_output .= '<p>Error en la solicitud: ' . curl_error($request) . '</p>';
+
         curl_close($request);
-        return $error_message;
+
+        return $html_output;
+        
     }
 
     curl_close($request);
-    $result = json_decode($response, true);
 
-    // Verificar si la tarjeta fue eliminada con éxito en la API
+    $result = json_decode($response, true);
+  
+ 
     if (isset($result['message']) && $result['message'] === 'card deleted') {
-        // Eliminar la tarjeta de nuestra base de datos
-        $delete_result = delete_db_user_card($card_token, $userId);
-        if ($delete_result) {
-            return wp_redirect(home_url($_SERVER['REQUEST_URI']));
-        } else {
-            return '<p>Error al eliminar la tarjeta de la base de datos.</p>';
-        }
+
+       delete_db_user_card($card_token, $user_id);
+        
+       $current_url = esc_url_raw($_SERVER['REQUEST_URI']);
+       wp_redirect($current_url);
+       exit;
+
     } else {
-        return '<p>Error al eliminar la tarjeta: ' . ($result['message'] ?? 'Error desconocido') . '</p>';
+
+        $html_output .= '<p>An error occurred while deleting your card. The card may not have been deleted.</p>';
+
+        return $html_output;
+        
     }
+
 }
+
 ?>
