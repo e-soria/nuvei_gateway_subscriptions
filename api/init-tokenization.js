@@ -104,7 +104,7 @@ let notCompletedFormCallback = (message) => {
     if (message.includes('Invalid Card Data')) {
         alertHTML = `
             <div class='alert error-alert' style="margin-bottom: 24px;">
-                <p><i class="icon-info" aria-hidden="true"></i>Ha ocurrido un error. Por favor revisa la información de tu tarjeta.</p>
+                <p><i class="icon-info" aria-hidden="true"></i>Los datos de la tarjeta son inválidos. Por favor revisa la información de tu tarjeta.</p>
             </div>
         `;
 
