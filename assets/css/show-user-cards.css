@@ -1,15 +1,19 @@
 #user-cards-container {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    flex-wrap: wrap;
     margin: 16px 0px;
+}
+
+#user-cards-container .section-title {
+    margin-bottom: 16px;
 }
 
 #user-cards-container h3 {
     margin: 0px;
+}
+
+#user-cards-container .user-card-list {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
 #user-cards-container .user-card  {
@@ -23,6 +27,7 @@
     display: inline-block;
     max-width: 324px;
     width: 100%;
+    max-height: fit-content;
 }
 
 
