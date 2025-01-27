@@ -1,6 +1,6 @@
 <?php
 
-function render_tokenization_form($atts) { 
+function tokenization_form($atts) { 
   $atts = shortcode_atts(
     ['is_checkout' => false], 
   $atts);
@@ -33,7 +33,7 @@ function render_tokenization_form($atts) {
 
 }
 
-add_shortcode('tokenization_form', 'render_tokenization_form'); 
+add_shortcode('tokenization_form', 'tokenization_form'); 
 
 
 function load_tokenization_assets() {
