@@ -2,20 +2,21 @@
 
 function show_user_cards($atts) {
 
+    //init js files
+    $base_plugin_path = plugins_url('', dirname(__FILE__, 2));
+
+    wp_enqueue_script('delete-user-cards', $base_plugin_path . '/api/delete-user-cards.js', array('jquery'), null, true);
+
     $atts = shortcode_atts(array(
-        'tokenize_form' => 'false',
+        'tokenization_form' => 'false',
         'use_card_button' => 'false',
         'delete_card_button' => 'true'
     ), $atts);
 
     // shortcode atts
-    $show_form = strval($atts['tokenize_form']);
+    $show_form = strval($atts['tokenization_form']);
     $use_card_button = strval($atts['use_card_button']);
     $delete_card_button = strval($atts['delete_card_button']);
-
-    //init js files
-    $base_plugin_path = plugins_url('', dirname(__FILE__, 2));
-    wp_enqueue_script('delete-user-cards', $base_plugin_path . '/api/delete-user-cards.js', array('jquery'), null, true);
 
 
     // get all user cards
@@ -143,11 +144,11 @@ function show_user_cards($atts) {
     } 
 
     if ($show_form === 'true') {
-        echo do_shortcode('[tokenize_form]');
+        echo do_shortcode('[tokenization_form]');
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete' ) {
-        delete_card($user_id, $user_cards);
+        delete_user_card($user_id, $user_cards);
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'save_card' ) {
@@ -156,7 +157,7 @@ function show_user_cards($atts) {
             "card_token" => $_POST['card_token']
         ];     
 
-        save_card_into_db($user_id, $user_card);
+        save_db_user_card($user_id, $user_card);
     }
 
     return;
