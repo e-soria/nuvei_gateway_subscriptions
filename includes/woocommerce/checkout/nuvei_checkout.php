@@ -4,11 +4,11 @@ if (!in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get
 
 function nuvei_init_gateway_class() {
     
-    class WC_Nuvei_Gateway extends WC_Payment_Gateway {
+    class WC_Nuvei_Subscription_Gateway extends WC_Payment_Gateway {
 
         public function __construct() {
 
-            $this->id = 'nuvei'; 
+            $this->id = 'nuvei_subscription_gateway'; 
             $this->icon = 'https://hiitclub.online/wp-content/uploads/2024/08/WhatsApp-Image-2024-08-01-at-3.19.36-PM.jpeg'; 
             $this->has_fields = true;
             $this->method_title = 'Nuvei Gateway';
