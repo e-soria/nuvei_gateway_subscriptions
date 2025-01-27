@@ -1,43 +1,30 @@
 <?php
 
-/**
- * Retrieves card information from the database based on the user ID and a given reference.
- *
- * @param string $user_id     User ID associated with the card.
- * @param string $reference   Reference of the card to be recovered.
- *
- * @return array|notice_error    An associative array with the card information or message error if not found.
-*/
+function get_user_card($user_id, $card_ref) {
 
-
-function get_card_from_db( $user_id, $reference ) {
+    if (empty($user_id) || empty($card_ref)) {
+        return '<div class="alert error-alert"><p>Error: ID de usuario o referencia de tarjeta inválidos.</p></div>';
+    }
 
     global $wpdb;
-                
-    $table_name = $wpdb->prefix . 'user_cards';
-    
-    $sql = $wpdb->prepare(
-        "SELECT * FROM $table_name WHERE user_id = %d AND card_ref = %d",
-        $user_id,
-        $reference
+    $table_name = $wpdb->prefix . 'nuvei_user_cards';
+
+    $card_data = $wpdb->get_row(
+        $wpdb->prepare(
+            "SELECT * FROM {$table_name} WHERE user_id = %d AND card_ref = %s",
+            intval($user_id),
+            sanitize_text_field($card_ref)
+        ),
+        ARRAY_A
     );
 
-    $user_card = $wpdb->get_row($sql, ARRAY_A);
-
-    if (empty($user_card)) {
-        return wc_add_notice(
-            '<p>
-                No es posible realizar la transacción. 
-                Por favor prueba con otra tarjeta, comunícate con nosotros para recibir ayuda.
-            </p>', 
-            'error' 
-        );
+    if (!$card_data) {
+        return '<div class="alert info-alert">
+                    <p>No se pudo encontrar la tarjeta. Intenta con otra o contáctanos para recibir ayuda.</p>
+                </div>';
     }
-    
-    return $user_card;
 
-
+    return $card_data;
 }
-
 
 ?>
