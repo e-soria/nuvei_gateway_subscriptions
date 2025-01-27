@@ -35,75 +35,93 @@ function show_user_cards($atts) {
         $user_cards = [];
 
         ?>
+        
         <div id="user-cards-container" class="user-cards-container"> 
 
-            <h3>Tus tarjetas guardadas</h3>
+            <div class="section-title">
+                <h3>Tus tarjetas guardadas</h3>
+            </div>
 
-        <?php
+            <div class="user-card-list">
 
-            foreach ($cards as $card) {
+                <?php
 
-                $card_bin = $card['bin'];
-                $card_status = $card['status'];
-                $card_token = $card['token'];
-                $card_name = $card['holder_name'];
-                $card_expiry_year = substr($card['expiry_year'], -2);
-                $card_expiry_month = str_pad($card['expiry_month'], 2, "0", STR_PAD_LEFT);
-                $card_transaction_reference = $card['transaction_reference'];
-                $card_number = $card['number'];
-                $card_type = $card['type'];
+                foreach ($cards as $card) {
 
-                $user_cards[] = $card;
+                    $card_bin = $card['bin'];
+                    $card_status = $card['status'];
+                    $card_token = $card['token'];
+                    $card_name = $card['holder_name'];
+                    $card_expiry_year = substr($card['expiry_year'], -2);
+                    $card_expiry_month = str_pad($card['expiry_month'], 2, "0", STR_PAD_LEFT);
+                    $card_transaction_reference = $card['transaction_reference'];
+                    $card_number = $card['number'];
+                    $card_type = $card['type'];
 
-                if ($card_type === 'mc') {
-                   $card_type_img = $base_plugin_path . '/assets/images/mastercard_logo_image.svg';
-                } elseif ($card_type === 'vi') {
-                   $card_type_img =  $base_plugin_path . '/assets/images/visa_logo_image.svg';
-                }
+                    $user_cards[] = $card;
 
-                ?>
+                    if ($card_type === 'mc') {
 
-                <div class="user-card" data-ref="<?php echo $card_token; ?>">
+                        $card_type_img = $base_plugin_path . '/assets/images/mastercard_logo_image.svg';
+                    
+                    } elseif ($card_type === 'vi') {
+                    
+                        $card_type_img =  $base_plugin_path . '/assets/images/visa_logo_image.svg';
+                    
+                    }
 
-                    <div class="user-card-details">
+                    ?>
+
+                    <div class="user-card" data-ref="<?php echo $card_token; ?>">
+
+                        <div class="user-card-details">
                             <img class="card-type" src="<?php echo $card_type_img ?>" />
                             <p class="card-number">**** **** **** <?php echo esc_html($card_number) ?> </p>
                             <p class="card-name"><?php echo esc_html($card_name); ?></p>
                             <p class="card-expiry"><?php echo esc_html($card_expiry_month . '/' . $card_expiry_year); ?></p>
-                    </div>
-
-                    <?php
-
-                    if ($delete_card_button === "true") { ?>
-                        
-                        <form class="card-form delete-card-form" method="post" >
-                            
-                            <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="card_token" value="<?php echo $card_token?>">
-
-                            <div class="card-form-ctas">
-                                <input type="submit" class="button delete-card-button" value="Eliminar Tarjeta">
-                            </div>
-                            
-                        </form>
-
-                        <?php
-
-                    } else { ?>
-
-                        <div class="card-form-ctas">
-                            <a href="#" class="button use-card-button">Usar tarjeta</a>
                         </div>
 
                         <?php
-                    } ?>
 
-                </div>
+                        if ($delete_card_button === "true") { ?>
+                            
+                            <form class="card-form delete-card-form" method="post" >
+                                
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="card_token" value="<?php echo $card_token?>">
 
-                <?php
-            }
+                                <div class="card-form-ctas">
+                                    <input type="submit" class="button delete-card-button" value="Eliminar Tarjeta">
+                                </div>
+                                
+                            </form>
+
+                            <?php
+
+                        } else { 
+                            
+                            ?>
+
+                            <div class="card-form-ctas">
+                                <a href="#" class="button use-card-button">Usar tarjeta</a>
+                            </div>
+
+                            
+                            <?php
+                        } 
+
+                        ?>
+
+                    </div> <!-- End user-card -->
+                
+                    <?php
+                } // End foreach
+                ?>
+
+            </div>
             
 
+            <?php
             if ($use_card_button === "true") { ?>
             
                 <div class="alert info-alert">
