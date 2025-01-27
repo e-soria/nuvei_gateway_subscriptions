@@ -1,6 +1,6 @@
 <?php
 
-function get_user_card($user_id, $card_ref) {
+function get_db_user_card($user_id, $card_ref) {
 
     if (empty($user_id) || empty($card_ref)) {
         return '<div class="alert error-alert"><p>Error: ID de usuario o referencia de tarjeta inválidos.</p></div>';

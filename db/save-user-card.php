@@ -1,6 +1,6 @@
 <?php
 
-function save_user_card($user_id, $card_data) {
+function save_db_user_card($user_id, $card_data) {
 
     if (empty($user_id) || empty($card_data)) {
         display_alert('error', 'Token de tarjeta o ID de usuario no válido.');

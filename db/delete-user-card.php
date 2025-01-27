@@ -1,6 +1,6 @@
 <?php
 
-function delete_user_card($card_token, $user_id) {
+function delete_db_user_card($card_token, $user_id) {
 
     if (empty($card_token) || empty($user_id)) {
         return generate_alert('error', 'Error: Información de tarjeta o usuario inválida.');

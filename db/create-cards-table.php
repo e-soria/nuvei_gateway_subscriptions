@@ -1,6 +1,6 @@
 <?php
 
-function create_cards_table() {
+function create_db_cards_table() {
    
     global $wpdb;
 

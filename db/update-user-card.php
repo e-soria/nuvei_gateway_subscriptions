@@ -1,6 +1,6 @@
 <?php
 
-function update_user_card($user_id, $card_token, $subscription_id) {
+function update_db_user_card($user_id, $card_token, $subscription_id) {
 
     if (empty($user_id) || empty($card_token) || empty($subscription_id)) {
         return '<div class="alert error-alert">Error: Datos de tarjeta o usuario inválidos.</div>';
