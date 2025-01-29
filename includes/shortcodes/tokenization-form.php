@@ -1,21 +1,22 @@
 <?php
 
 function tokenization_form($atts) { 
-  $atts = shortcode_atts(
-    ['is_checkout' => false], 
-  $atts);
+  $atts = shortcode_atts(array(
+    'is_checkout' => false
+  ), $atts);
 
   ?>
     
   <div id="tokenize-form">
       
-    <div id='tokenize-form-container'>
+    <div id="tokenize-form-container">
           
       <div id="response"></div>
-          
-      <div id='tokenize_example'></div>
-
-      <form id="tokenize_form" method="post" style="display: none;">
+      
+      <div id="tokenize_example"></div>
+      
+      <!-- Formulario de tokenización -->
+      <form name="tokenize_form" id="tokenize_form" method="post">
         <input type="hidden" name="action" value="save_card">
       </form>
 
