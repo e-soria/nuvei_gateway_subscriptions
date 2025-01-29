@@ -104,7 +104,7 @@ function debit_with_token( $user_data, $card_token, $order_data ) {
     // 6. Send data to Nuvei API endpoint to execute debit transaction
     $dataJSON = json_encode($debit_data);
 
-    $base_url = get_nuvei_base_url();
+    $base_url = get_nuvei_urls();
     $url = $base_url . '/transaction/debit/';
 
     //wc_add_notice( 'Debug Infooooo: ' . print_r($base_url, true), 'notice' );

@@ -35,7 +35,7 @@ function nuvei_gateway_subscriptions_load_files() {
 
         $files_to_include = [
             '/auth/create-auth-token.php',
-            '/api/debit_with_token.php',
+            '/api/debit-with-token.php',
             '/api/delete-user-card.php',
             '/api/list-user-cards.php',
             '/api/refund.php',
