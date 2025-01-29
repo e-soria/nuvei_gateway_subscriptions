@@ -30,6 +30,60 @@
     max-height: fit-content;
 }
 
+#user-cards-container .user-card.active {
+    border: 2px solid #1dab1d;
+    box-shadow: 0px 4px 8px rgba(115, 136, 131, 1);
+    transform: scale(1);
+    transition: all .4s ease;
+}
+
+/*--- user card checkout -----*/
+
+.payment_method_nuvei_gateway_subscriptions .alert {
+    margin: 0px;
+}
+
+.payment_method_nuvei_gateway_subscriptions .use-saved-cards-option {
+    margin-bottom: 16px;
+    display: flex;
+    gap: 8px;
+    align-content: center;
+    align-items: center;
+}
+
+.payment_method_nuvei_gateway_subscriptions .use-saved-cards-option label {
+    text-decoration: underline;
+}
+
+div.payment_method_nuvei_gateway_subscriptions #user-cards-container {
+    display: flex;
+    flex-direction: column;
+} 
+
+div.payment_method_nuvei_gateway_subscriptions #user-cards-container
+.alert {
+    order: -1;
+    margin-top: 0px;
+}
+
+div.payment_method_nuvei_gateway_subscriptions:not(.use-saved-cards) #user-cards-container {
+    display: none;
+}
+
+.payment_method_nuvei_gateway_subscriptions
+.user-card {
+    transform: scale(0.9);
+    transition: all .4s ease;
+}
+
+.payment_method_nuvei_gateway_subscriptions.use-saved-cards #tokenize-form {
+    display: none;
+}
+
+.payment_method_nuvei_gateway_subscriptions #tokenize-form input[type="button"] {
+    display: none; 
+ }
+
 
 @media (max-width: 1280px) {
     #user-cards-container .user-card {
@@ -67,10 +121,6 @@
     color: #fff;
 }
 
-#user-cards-container p:first-child {
-    font-size: 24px;
-}
-
 #user-cards-container .card-form-ctas {
     margin-top: 12px;
     display: -webkit-box;
@@ -83,25 +133,36 @@
     gap: 8px;
 }
 
-#user-cards-container .card-form-ctas .button {
+#user-cards-container .user-card .button {
     height: 48px;
     font-size: 16px;
-    font-family: var(--secondary-font);
     font-weight: 500;
     border: none;
     border-radius: 4px;
     padding: 12px 24px;
     cursor: pointer;
+    text-align: center;
 }
 
-#user-cards-container .card-form-ctas input[type="submit"].delete-card-button {
+#user-cards-container .user-card input[type="submit"].delete-card-button,
+#user-cards-container .user-card .button.use-card-button {
     background: #dd2222;
     color: #fff;
     transition: background .4s ease;
 }
 
-#user-cards-container .card-form-ctas input[type="submit"].delete-card-button:hover {
+#user-cards-container .user-card input[type="submit"].delete-card-button:hover,
+#user-cards-container .user-card .button.use-card-button:hover {
     background: #a01818;
+}
+
+#user-cards-container .user-card .button.use-card-button {
+    background: #dd2222;
+    color: #fff;
+}
+
+#user-cards-container .user-card.active .button.use-card-button {
+    background: #1dab1d;
 }
 
 /*-------------- CONFIRMATION MODAL ------------*/
@@ -159,9 +220,7 @@
 }
 
 .confirmation-modal .confirmation-modal-container h2 {
-    color: var(--text-black-color);
     font-size: 24px;
-    font-family: var(--secondary-font);
     text-align: center;
     margin: 0px;
     line-height: calc( 20px * 1.5);
@@ -185,18 +244,21 @@
 
 .confirmation-modal .confirmation-modal-container .modal-ctas
 button {
-    font-family: var(--secondary-font);
+    cursor: pointer;
     font-size: 16px;
     padding: 12px 16px;
+    border-radius: 4px;
 }
 
 .confirmation-modal .confirmation-modal-container .modal-ctas
 button.yes {
+    color: #fff;
     background: #ff5f6d;
     border-color: #ff5f6d;
 }
 
 .confirmation-modal .confirmation-modal-container .modal-ctas
 button.no {
-    background: var(--text-black-color);
+    color: #fff;
+    background: #000;
 }
