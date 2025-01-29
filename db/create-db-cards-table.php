@@ -33,7 +33,7 @@ register_activation_hook(__FILE__, 'create_cards_table');
 
 // Verificar si la tabla ya existe antes de crearla
 if (!get_option('wp_nuvei_cards_table_created')) {
-    create_cards_table();
+    create_db_cards_table();
 }
 
 ?>
