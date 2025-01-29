@@ -49,7 +49,7 @@ let responseCallback = (response) => {
         } else {
 
             alertHTML = `
-                <div class='alert info-alert' style="margin-bottom: 24px;">
+                <div class='alert success-alert' style="margin-bottom: 24px;">
                     <p><i class="icon-info" aria-hidden="true"></i>Los datos de la tarjeta son correctos. Estamos procesando el pago.</p>
                 </div>`
             ;
@@ -64,18 +64,31 @@ let responseCallback = (response) => {
         
         alertHTML = `
             <div class='alert error-alert' style="margin-bottom: 24px;">
-                <p><i class="icon-info" aria-hidden="true"></i>Hubo un problema con tu tarjeta. La conexión fue rechazada. Por favor escríbenos a <a href="mailto:hi@hiitclub.online">hi@hiitclub.online</a>.</p>
+                <p><i class="icon-info" aria-hidden="true"></i>Hubo un problema con tu tarjeta. La conexión fue rechazada. Por favor escríbenos para recibir ayuda.</p>
             </div>`
         ;
         
 
     } else if (errorType.includes('Card already added')) {
         
-        alertHTML = `
-            <div class='alert info-alert' style="margin-bottom: 24px;">
-                <p><i class="icon-info" aria-hidden="true"></i>Ya has agregado esta tarjeta. Si quieres actualizarla primero debes borrarla.</p>
-            </div>
-        `;
+        
+        if ( is_checkout ) {
+            
+            alertHTML = `
+                <div class='alert info-alert' style="margin-bottom: 24px;">
+                    <p><i class="icon-info" aria-hidden="true"></i>Ya has agregado esta tarjeta. Si deseas pagar con ella activa la opción de "deseo pagar con una de mis tarjetas".</p>
+                </div>
+            `;
+            
+        } else {
+            
+            alertHTML = `
+                <div class='alert info-alert' style="margin-bottom: 24px;">
+                    <p><i class="icon-info" aria-hidden="true"></i>Ya has agregado esta tarjeta. Si quieres actualizarla primero debes borrarla.</p>
+                </div>
+            `;
+
+        }
         
     }
 
@@ -111,7 +124,7 @@ let notCompletedFormCallback = (message) => {
     } else {
         alertHTML = `
             <div class='alert error-alert' style="margin-bottom: 24px;">
-                <p><i class="icon-info" aria-hidden="true"></i>Ha ocurrido un error. Por favor revisa la información de tu tarjeta o contáctate con <a mailto="soporte@hiitclub.online">soporte@hiitclub.online</a></p>
+                <p><i class="icon-info" aria-hidden="true"></i>Ha ocurrido un error. Por favor revisa la información de tu tarjeta o escríbenos para recibir ayuda</p>
             </div>
         `;
     }
@@ -134,6 +147,10 @@ const tokenizationRequest = function (e) {
     const tokenizeBtn = document.querySelector('#tokenize_btn');
     const form = document.querySelector('form.checkout');
     const formInputs = document.querySelectorAll('form.checkout .woocommerce-billing-fields__field-wrapper input');
+
+    console.log(tokenizeBtn);
+    console.log(form);
+    console.log(formInputs);
 
     let isEmpty = false;
     let emptyInput;
@@ -167,14 +184,15 @@ const tokenizationRequest = function (e) {
 
             form.insertBefore(alertDiv, form.firstChild);
 
+            alertDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+
         } else {
 
             emptyFieldsAlert.innerHTML = alertMessage;
 
         }
-
-        alertDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
+        
     } else {
 
         // Si no hay campos vacíos, procede con el envío del formulario
@@ -245,7 +263,9 @@ const useSaveCardsOption = () => {
     const checkoutForm = jQuery( 'form.woocommerce-checkout' );
 
     const useSavedCardsCheckbox = document.querySelector('input#use_saved_cards');
-    const nuveiPaymentMethod = useSavedCardsCheckbox.closest('div.payment_box.payment_method_nuvei');
+    const nuveiPaymentMethod = useSavedCardsCheckbox.closest('div.payment_box.payment_method_nuvei_gateway_subscriptions');
+
+    console.log(nuveiPaymentMethod);
 
     useSavedCardsCheckbox.addEventListener('change', function () {
         
