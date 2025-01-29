@@ -37,7 +37,7 @@ Este plugin se publica bajo la **licencia GPL**, lo que garantiza la libertad de
 - Credenciales de API de Nuvei (proporcionadas por Nuvei)
 
 ## Soporte
-Para problemas, solicitudes de funciones o contribuciones, visita nuestro [repositorio en GitHub](https://github.com/e-soria/nuvei_gateway_subscripions/) o contáctanos a través de nuestros canales de soporte.
+Para problemas, solicitudes de funciones o contribuciones, visita nuestro [repositorio en GitHub](https://github.com/e-soria/nuvei_gateway_subscriptions/) o contáctanos a través de nuestros canales de soporte.
 
 ## Licencia
 Este plugin está licenciado bajo la **Licencia Pública General de GNU (GPL)**. Eres libre de usarlo, modificarlo y distribuirlo bajo los términos de esta licencia.
