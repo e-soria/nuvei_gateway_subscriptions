@@ -9,10 +9,10 @@ function nuvei_init_gateway_class() {
         public function __construct() {
 
             $this->id = 'nuvei_gateway_subscriptions'; 
-            $this->icon = 'https://hiitclub.online/wp-content/uploads/2024/08/WhatsApp-Image-2024-08-01-at-3.19.36-PM.jpeg'; 
+            $this->icon = 'https://dev.draxdesign.com/wp-content/plugins/nuvei-gateway-subscriptions/assets/images/nuvei_logo_image.webp'; 
             $this->has_fields = true;
             $this->method_title = 'Nuvei Gateway Subscriptions';
-            $this->method_description = 'Use this payment method to make sales and payments through Nuvei';
+            $this->method_description = 'Vende tus productos de tipo subscripción a través de Nuvei';
             
             $this->supports = array( 
                 'products', 
@@ -25,7 +25,6 @@ function nuvei_init_gateway_class() {
                 'multiple_subscriptions',
             );
 
-           
 	        $this->init_form_fields();
            
             $this->init_settings();
@@ -51,16 +50,12 @@ function nuvei_init_gateway_class() {
 
             $this->tax_enabled = $this->get_option( 'tax_enabled' );
             $this->tax_percentage = $this->get_option('tax_enabled') === 'no' ? '0' : $this->get_option( 'tax_percentage' );
-
           
             $this->customer_support_email = $this->get_option('customer_support_email');
 
-        
             add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-
           
             add_action( 'wp_enqueue_scripts', array( $this, 'payment_scripts' ) );
-            
           
             add_action('woocommerce_scheduled_subscription_payment_' . $this->id, array($this, 'woocommerce_scheduled_subscription_payment'), 10, 2);
 
@@ -72,109 +67,125 @@ function nuvei_init_gateway_class() {
 
             $this->form_fields = array(
                 'enabled' => array(
-                    'title'       => 'Enable/Disable',
-                    'label'       => 'Enable Nuvei Gateway Subscriptions',
+                    'title'       => 'Activar Nuvei Gateway Subscriptions',
+                    'label'       => '',
                     'type'        => 'checkbox',
                     'description' => '',
                     'default'     => 'no'
                 ),
                 'title' => array(
-                    'title'       => 'Title',
+                    'title'       => 'Título',
                     'type'        => 'text',
-                    'description' => 'This is the title that users will see at checkout',
-                    'default'     => 'Your secure payment through Nuvei.',
+                    'description' => 'Este título será visible en la página de pago.',
+                    'default'     => 'Tus pagos seguros con Nuvei',
                     'desc_tip'    => true,
                 ),
                 'description' => array(
-                    'title'       => 'Description',
+                    'title'       => 'Descripción',
                     'type'        => 'textarea',
-                    'description' => 'Payment method description that the customer will see on your checkout.',
-                    'default'     => 'We use all Nuvei security methods.',
+                    'description' => 'Esta descripción será visible en la página de pago.',
+                    'default'     => 'Ingresa los datos de tu tarjeta para completar la compra.',
                     'desc_tip'    => true,
                 ),
                 'testmode' => array(
-                    'title'       => 'Test mode',
-                    'label'       => 'Enable Test Mode',
+                    'title'       => 'Modo de pruebas',
+                    'label'       => 'Activar el modo de pruebas',
                     'type'        => 'checkbox',
-                    'description' => 'To use "test mode" you must enter your test credentials',
+                    'description' => 'Marca esta casilla para realizar pruebas pre-produccion. Debes tener credenciales de pruebas para usar esta opción.',
                     'default'     => 'no',
                     'desc_tip'    => true,
                 ),
                 'test_app_code' => array(
-                    'title'       => 'Test Application Code',
+                    'title'       => 'Application Code (modo pruebas)',
                     'type'        => 'text',
-                    'default'     => ''
+                    'default'     => '',
+                    'desc_tip'    => true,
+                    'description' => 'Esta credencial es necesaria para poder utilizar el modo de pruebas.',
                 ),
                 'test_app_key' => array(
-                    'title'       => 'Test Application Key',
+                    'title'       => 'Application Key (modo pruebas)',
                     'type'        => 'password',
-                    'default'     => ''
+                    'default'     => '',
+                    'desc_tip'    => true,
+                    'description' => 'Esta credencial es necesaria para poder utilizar el modo de pruebas.',
                 ),
                 'test_app_server_code' => array(
-                    'title'       => 'Test App Server Code',
+                    'title'       => 'Application Server Code (modo pruebas)',
                     'type'        => 'text',
-                    'default'     => ''
+                    'default'     => '',
+                    'desc_tip'    => true,
+                    'description' => 'Esta credencial es necesaria para poder utilizar el modo de pruebas.',
                 ),
                 'test_app_server_key'  => array(
-                    'title'       => 'Test App Server Key',
+                    'title'       => 'Application Server Key (modo pruebas)',
                     'type'        => 'password',
-                    'default'     => ''
+                    'default'     => '',
+                    'desc_tip'    => true,
+                    'description' => 'Esta credencial es necesaria para poder utilizar el modo de pruebas.',
                 ),
                 'app_code' => array(
-                    'title'       => 'Application Code',
+                    'title'       => 'Application Code (modo producción)',
                     'type'        => 'text',
-                    'default'     => ''
+                    'default'     => '',
+                    'desc_tip'    => true,
+                    'description' => 'Esta credencial es necesaria para poder utilizar el modo de producción.',
                 ),
                 'app_key' => array(
-                    'title'       => 'Application Key',
+                    'title'       => 'Application Key (modo producción)',
                     'type'        => 'password',
-                    'default'     => ''
+                    'default'     => '',
+                    'desc_tip'    => true,
+                    'description' => 'Esta credencial es necesaria para poder utilizar el modo de producción.',
                 ),
                 'app_server_code' => array(
-                    'title'       => 'App Server Code',
+                    'title'       => 'Application Server Code (modo producción)',
                     'type'        => 'text',
-                    'default'     => ''
+                    'default'     => '',
+                    'desc_tip'    => true,
+                    'description' => 'Esta credencial es necesaria para poder utilizar el modo de producción.',
                 ),
                 'app_server_key'  => array(
-                    'title'       => 'App Server Key',
+                    'title'       => 'Application Server Key (modo producción)',
                     'type'        => 'password',
-                    'default'     => ''
+                    'default'     => '',
+                    'desc_tip'    => true,
+                    'description' => 'Esta credencial es necesaria para poder utilizar el modo de producción.',
                 ),
                 'stg_mode_url'  => array(
-                    'title'       => 'Base URL stg',
+                    'title'       => 'URL de modo pruebas (stg)',
                     'type'        => 'text',
                     'default'     => 'https://ccapi-stg.paymentez.com/v2',
                     'desc_tip'    => true,
-                    'description' => 'Base url for endpoints in stg mode. Ex: https://ccapi-stg.paymentez.com/v2',
+                    'description' => 'URL base para utilizar los endpoints en modo de pruebas.',
                 ),
                 'prod_mode_url'  => array(
-                    'title'       => 'Base URL prod',
+                    'title'       => 'URL de modo producción (prod)',
                     'type'        => 'text',
                     'default'     => 'https://ccapi-prod.paymentez.com/v2',
                     'desc_tip'    => true,
-                    'description' => 'Base url for endpoints in prod mode. Ex: https://ccapi-prod.paymentez.com/v2',
+                    'description' => 'URL base para utilizar los endpoints en modo de producción.',
                 ),
                 'tax_enabled' => array(
-                    'title'       => 'Enable Tax',
-                    'label'       => 'Do you pay taxes?',
+                    'title'       => 'Activar impuestos',
+                    'label'       => '',
                     'type'        => 'checkbox',
                     'default'     => 'no',
                     'desc_tip'    => true,
-                    'description' => 'If you pay taxes, enable this option.',
+                    'description' => 'Marca esta casilla si pagas impuestos.',
                 ),
                 'tax_percentage' => array(
-                    'title'       => 'Tax Percentage',
+                    'title'       => 'Porcentaje de impuestos',
                     'type'        => 'text',
                     'default'     => '0',
-                    'description' => 'Enter the tax percentage do you pay. Do not include the "%" symbol',
+                    'description' => 'Indica el porcentaje de impuestos que pagas. No es necesario escribir el signo de porcentaje.',
                     'desc_tip'    => true,
                     'placeholder' => 'Example: 12'
                 ),
                 'customer_support_email' => array(
-                    'title'       => 'Customer support email',
+                    'title'       => 'Email de soporte al cliente',
                     'type'        => 'email',
                     'default'     => '',
-                    'description' => 'This is very important. Write the email with which you will support your users in case of a problem during the purchase process.',
+                    'description' => 'Escribe el correo de soporte al cliente. Aparecera para ayudar a los usuarios en caso de errores.',
                     'desc_tip'    => true,
                     'placeholder' => 'support@support.com'
                 ),
@@ -186,7 +197,10 @@ function nuvei_init_gateway_class() {
 
             if( $this->description ) {
                 if( $this->testmode ) {
-                    $this->description .= ' <span class="test-mode">TEST MODE ENABLED.</span> In test mode, you can use the card numbers listed in <a href="https://developers.paymentez.com/docs/payments/#javascript">documentation</a>.';
+                    $this->description .= ' <div class="alert info-alert">
+                        <p class="test-mode"><strong>Has activado el modo de pruebas.</strong> Para desactivarlo haz <a target="_blank" nofollow href="/wp-admin/admin.php?page=wc-settings&tab=checkout&section=nuvei_gateway_subscriptions">click aquí para ir a los ajustes.</a></p> 
+            
+                    </div>';
                     $this->description  = trim( $this->description );
                 }
             
@@ -195,8 +209,6 @@ function nuvei_init_gateway_class() {
             
             echo '<fieldset id="wc-' . esc_attr( $this->id ) . '-cc-form" class="wc-credit-card-form wc-payment-form" style="background:transparent;">';
 
-                echo '<div id="user-cards" class="user-cards">';
-
                     echo '<div class="use-saved-cards-option">';
                         echo '<input type="checkbox" id="use_saved_cards" name="use_saved_cards" />';
                         echo '<label for="use_saved_cards">Deseo pagar con una de mis tarjetas</label>';
@@ -204,9 +216,6 @@ function nuvei_init_gateway_class() {
                     
                     do_shortcode('[show_user_cards use_card_button="true" delete_card_button="false"]');
 
-                echo '</div>';
-                    
-              
                 do_action( 'woocommerce_credit_card_form_start', $this->id );
                 
                 do_shortcode('[tokenization_form is_checkout="true"]');
@@ -222,81 +231,28 @@ function nuvei_init_gateway_class() {
 
         }
 
+
+        // Function to validate fields
 		public function validate_fields() {
             //wc_add_notice( 'Debug Info: ' . print_r( $_POST, true ), 'notice' );
+            
         }
 
+        public function process_payment($order_id) {
+
+            $cart_items = WC()->cart->get_cart();
+            $subscription_id = $this->detect_subscription($cart_items);
         
-		public function process_payment( $order_id ) {
-
-            //wc_add_notice( 'Checkout POST Method: ' . print_r( $_POST, true ), 'notice' );
-           
-
-            $cart = WC()->cart;
-            $cart_items = $cart->get_cart();
-
-            $subscription_id = null;
-            
-            foreach ($cart_items as $cart_item_key => $cart_item) {
-                
-                $product = $cart_item['data'];
-                
-                $product_id = isset($cart_item['product_id']) ? intval($cart_item['product_id']) : null;
-
-                if (class_exists( 'WC_Subscriptions_Product' ) && WC_Subscriptions_Product::is_subscription( $product_id ) || $product->is_type('subscription') || $product->is_type( 'variable-subscription') ) {
-                    $subscription_id = $product->get_id();
-                }
-                
-            }
-            
-
-            $get_user_data = get_user_data();
-
-            $user_id    = $get_user_data['user_id'];
-            $user_email = $get_user_data['user_email'];
-            $first_name = $get_user_data['firstname'];
-            $last_name  = $get_user_data['lastname'];
-            
-            $user_data = [
-                'user_id'    => $user_id,
-                'user_email' => $user_email,
-                'first_name' => $first_name,
-                'last_name'  => $last_name,
-            ];
-            
-          
+            $user_data = $this->get_user_data();
             $card_token = $_POST['card_token'];
-     
-          
-            $product_names = array();
-
-            foreach ($cart_items as $cart_item_key => $cart_item) {
-                $product = $cart_item['data'];
-                $product_name = $product->get_name();
-                $product_names[] = $product_name;
-            }
-
-            $order_description = $first_name . ' ' . $last_name . ' ' . 'has bought: ' . esc_html(implode(', ', $product_names)) . ' ' . 'products'; 
-            
-            $order_data = [
-                'order_id'          => $order_id,
-                'order_description' => $order_description,
-                'order_subtotal'    => (float)$cart->get_subtotal() * 1.00,  // without taxes
-                'order_total'       => (float)$cart->get_total('number') * 1.00, //with taxes
-                'order_taxes'       => (float)$cart->get_total_tax() * 1.00, // only taxes
-                'tax_percentage'    => (float)get_option('woocommerce_nuvei_settings')['tax_percentage'] * 1.00, // tax setted from plugin settings
-            ];
-
-
-            $excecute_debit = debit_with_token( $user_data, $card_token, $order_data );
-
-            //wc_add_notice( 'Execute debit info: ' . print_r( $excecute_debit, true ), 'notice' );
-
-            if ( $excecute_debit['status'] === 'success' ) {
+            $order_data = $this->generate_order_data($order_id, $user_data, $cart_items);
+        
+            // FREE TRIAL CASE
+            if ($order_data['order_subtotal'] == 0 && $order_data['order_total'] == 0) {
 
                 if (isset($_POST['use_saved_cards'])) {
 
-                    $update_card = update_card_from_db( $user_id, $card_token, $subscription_id);
+                    $update_card = update_db_user_card( $user_data['user_id'], $card_token, $subscription_id);
                     
                 } else {
                     
@@ -304,81 +260,151 @@ function nuvei_init_gateway_class() {
                         "card_token"      => $card_token,
                         'subscription_id' => isset($subscription_id) ? $subscription_id : null,
                     );
-
-                    //wc_add_notice( 'Debug Info: ' . print_r( $user_card_data, true ), 'notice' );
-                    
-                    save_card_into_db($user_id, $user_card_data);
+                 
+                    save_db_user_card($user_data['user_id'], $user_card_data);
                 
                 }
-           
-                $order = wc_get_order( $order_id );
+
+                return $this->complete_order($order_id);
+            } 
+            // END FREE TRIAL CASE
         
-                $transaction_data = $excecute_debit['transaction_data'];
-                
-                foreach ($transaction_data as $key => $value) {
-                    $order->update_meta_data( '_nuvei_debit_' . $key, $value );
+            $execute_debit = debit_with_token($user_data, $card_token, $order_data);
+            wc_add_notice('Execute debit info: ' . print_r($execute_debit, true), 'notice');
+        
+            if ($execute_debit['status'] === 'success') {
+
+                $this->handle_successful_payment($order_id, $user_data['user_id'], $card_token, $subscription_id, $execute_debit);
+                return $this->redirect_to_thank_you_page($order_id);
+
+            } elseif ($execute_debit['status'] === 'pending') {
+
+                return $this->handle_pending_payment($order_id);
+
+            }
+        
+            return $this->handle_failed_payment($order_id);
+
+        }
+        
+        private function detect_subscription($cart_items) {
+
+            foreach ($cart_items as $cart_item) {
+                $product_id = $cart_item['data']->get_id();
+                if (class_exists('WC_Subscriptions_Product') && WC_Subscriptions_Product::is_subscription($product_id)) {
+                    return $product_id;
                 }
-                
-                $meta_card_data = array(
-                    'subscription_id' => $user_card_data['subscription_id']
-                );
-                
-                update_post_meta( $order_id, '_user_card_data', $meta_card_data );
+            }
 
-                $order->payment_complete();
-                $order->reduce_order_stock();
-                
-                WC()->cart->empty_cart();           
+            return null;
 
+        }
+        
+        private function get_user_data() {
 
-                return array(
-                    'result'   => 'success',
-                    'redirect' => $this->get_return_url( $order )
-                );
-    
+            $data = get_current_user_data();
+            return [
+                'user_id'    => $data['id'],
+                'user_email' => $data['email'],
+                'first_name' => $data['first_name'],
+                'last_name'  => $data['last_name'],
+            ];
 
-            } elseif ( $excecute_debit['status'] === 'pending' ) {
+        }
+        
+        private function generate_order_data($order_id, $user_data, $cart_items) {
+
+            $product_names = array_map(function($item) {
+                return $item['data']->get_name();
+            }, $cart_items);
+        
+            return [
+                'order_id'          => $order_id,
+                'order_description' => $user_data['first_name'] . ' ' . $user_data['last_name'] . ' has bought: ' . implode(', ', $product_names),
+                'order_subtotal'    => (float) WC()->cart->get_subtotal(),
+                'order_total'       => (float) WC()->cart->get_total('number'),
+                'order_taxes'       => (float) WC()->cart->get_total_tax(),
+                'tax_percentage'    => (float) get_option('woocommerce_nuvei_settings')['tax_percentage'],
+            ];
+
+        }
+        
+        private function complete_order($order_id) {
+
+            $order = wc_get_order($order_id);
+            $order->payment_complete();
+            $order->reduce_order_stock();
+            WC()->cart->empty_cart();
+            return [
+                'result'   => 'success',
+                'redirect' => $this->get_return_url($order),
+            ];
+
+        }
+        
+        private function handle_successful_payment($order_id, $user_id, $card_token, $subscription_id, $execute_debit) {
+
+            if (isset($_POST['use_saved_cards'])) {
+
+                update_db_user_card($user_id, $card_token, $subscription_id);
 
             } else {
 
-                wc_add_notice(
-                    '<p>
-                        Error: No es posible realizar la transacción1. 
-                        Por favor prueba con otra tarjeta, comunícate con tu banco o escribe a 
-                        <a href="#" mailto="hi@hiitclub.online">hi@hiitclub.online</a> para recibir ayuda
-                    </p>', 
-                    'error' 
-                );
-
-
-                wp_delete_post($order_id,true);
-                return;
+                save_db_user_card($user_id, [
+                    'card_token'      => $card_token,
+                    'subscription_id' => $subscription_id,
+                ]);
 
             }
+        
+            $order = wc_get_order($order_id);
+            foreach ($execute_debit['transaction_data'] as $key => $value) {
+                $order->update_meta_data('_nuvei_debit_' . $key, $value);
+            }
+        
+            update_post_meta($order_id, '_user_card_data', ['subscription_id' => $subscription_id]);
+            $order->payment_complete();
+            $order->reduce_order_stock();
+            WC()->cart->empty_cart();
 
-            wc_add_notice(
-                '<p>
-                    Error #2: No es posible realizar la transacción2. 
-                    Por favor prueba con otra tarjeta, comunícate con tu banco o escribe a 
-                    <a href="#" mailto="hi@hiitclub.online">hi@hiitclub.online</a> para recibir ayuda
-                </p>', 
-                'error' 
-            );
-
-            wp_delete_post($order_id,true);
-            return;
-            
         }
         
+        private function redirect_to_thank_you_page($order_id) {
+
+            $order = wc_get_order($order_id);
+            return [
+                'result'   => 'success',
+                'redirect' => $this->get_return_url($order),
+            ];
+
+        }
+        
+        private function handle_pending_payment($order_id) {
+            // Implement handling of pending payment if required
+            return;
+        }
+        
+        private function handle_failed_payment($order_id) {
+            wc_add_notice(
+                '<p>Error: No es posible realizar la transacción. Por favor prueba con otra tarjeta, comunícate con tu banco o escribe a <a href="mailto:hi@staging.hiitclub.online">hi@staging.hiitclub.online</a> para recibir ayuda</p>',
+                'error'
+            );
+            wp_delete_post($order_id, true);
+        }        
+        
+
+        // RENOVACIÓN AUTOMÁTICA
         public function woocommerce_scheduled_subscription_payment($amount_total, $renewal_order) {
 
-          
-            
+            // Get user data
             $user_id = $renewal_order->get_customer_id();
+            $product_price = null;
+
             
+            // Get product_id ( subscription )
             foreach ( $renewal_order->get_items() as $item_id => $item ) {
                 $product = $item->get_product();
-
+                $product_price = $product->get_price();
                 $product_id = $product->get_id();
 
                 if (class_exists( 'WC_Subscriptions_Product' ) && WC_Subscriptions_Product::is_subscription( $product_id ) || $product->is_type('subscription') || $product->is_type( 'variable-subscription') ) {
@@ -386,10 +412,10 @@ function nuvei_init_gateway_class() {
                 }
             }
 
-            
+            // Make a query to get the card associated with the subscription
             global $wpdb;
 
-            $table_name = $wpdb->prefix . 'user_cards';
+            $table_name = $wpdb->prefix . 'nuvei_user_cards';
                    
             $sql = $wpdb->prepare(
                 "SELECT * FROM $table_name WHERE user_id = %d AND subscription_id = %d",
@@ -403,7 +429,8 @@ function nuvei_init_gateway_class() {
                 return;
             }
 
-          
+            // Get all info we need to excecute the debit_with_token() API
+            // 1) User Data
             $get_user_data = get_userdata($user_id);
 
             $user_data = [
@@ -413,10 +440,10 @@ function nuvei_init_gateway_class() {
                 'last_name'  => $renewal_order->get_billing_last_name(),
             ];
 
-           
+            // 2) User Token ID
             $card_token = $user_card['card_token'];
 
-           
+            // 3) Order Data
             $order_id = $renewal_order->get_id();
             
             //$order_description = $user_data['first_name'] . ' ' . $user_data['last_name'] . ' ' . 'has renewed the' . ' ' . $product_name . ' ' . 'subscription'; 
@@ -425,18 +452,18 @@ function nuvei_init_gateway_class() {
             $order_data = [
                 'order_id'          => $order_id,
                 'order_description' => $order_description,
-                'order_subtotal'    => (float)$renewal_order->get_subtotal() * 1.00,  // without taxes
-                'order_total'       => (float)$renewal_order->get_total('number') * 1.00, //with taxes
+                'order_subtotal'    => (float)$product_price * 1.00,  // without taxes
+                'order_total'       => (float)$product_price * 1.00, //with taxes
                 'order_taxes'       => (float)$renewal_order->get_total_tax() * 1.00, // only taxes
                 'tax_percentage'    => (float)get_option('woocommerce_nuvei_settings')['tax_percentage'] * 1.00, // tax setted from plugin settings
             ];
-
-            
+ 
+            // EXCECUTE THE DEBIT_WITH_TOKEN() API
             $excecute_debit = debit_with_token($user_data, $card_token, $order_data );
 
             if ($excecute_debit['status'] === 'success') {
 
-             
+                // add order meta data
                 $transaction_data = $excecute_debit['transaction_data'];
 
                 $order = wc_get_order( $order_id );
@@ -445,7 +472,7 @@ function nuvei_init_gateway_class() {
                     $order->update_meta_data( '_nuvei_debit_' . $key, $value );
                 }
                 
-               
+                // TODO: indicar la subscripcion y la orden como activa
                 $renewal_order->update_status('completed', 'order_note');
 
                 $order->save();
