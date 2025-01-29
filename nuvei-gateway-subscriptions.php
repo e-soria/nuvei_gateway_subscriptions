@@ -1,17 +1,13 @@
 <?php
 
 /**
-    * Plugin Name: Nuvei gateway subscriptions
-    * Plugin URI: https://enzosoria.com
-    * Description: Este plugin fue desarrollado basado en mis conocimientos e ideas para satisfacer una necesidad en Ecuador. Todo el código y concepto son de mi autoría, y cualquier reproducción o distribución sin mi consentimiento está prohibida.
-    * Version: 1.0.0
+    * Plugin Name: Nuvei Payment Gateway
+    * Description: Permite a los usuarios realizar pagos con tarjeta de crédito y débito a través de la pasarela de pagos de Nuvei.
     * Author: Enzo Soria
     * Author URI: https://enzosoria.com
-    * License: Proprietary
-    * License URI: https://enzosoria.com
-    * © 2025 Enzo Soria. Todos los derechos reservados.
-    * Este software es propiedad exclusiva de su autor.
-    * Su uso, distribución o modificación sin autorización está prohibido.
+    * Version: 1.0.0
+    * License: GPL v3
+    * License URI: https://www.gnu.org/licenses/gpl-3.0.html 
 **/
 
 include plugin_dir_path(__FILE__) . 'includes/admin/plugin-activation.php';
