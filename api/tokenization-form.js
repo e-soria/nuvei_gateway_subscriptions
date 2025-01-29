@@ -1,8 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    console.log(credentials);
-    console.log(userData);
-
     const tokenizeForm = document.querySelector('#tokenize-form');
     const { is_checkout } = isCheckout;
 
@@ -25,11 +22,6 @@ const initForm = ( credentials, userData ) => {
 
     const { email, id } = userData;
     const { mode, app_code, app_key } = credentials;
-
-    //console.log(app_code);
-    //console.log(app_key);
-
-    console.log(mode);
 
     // === Variable to use ===
     let environment = mode;
